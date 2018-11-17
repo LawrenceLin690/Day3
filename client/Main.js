@@ -1,15 +1,29 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class Main extends Component {
   constructor() {
     super();
-    this.state = { text: 'Hello World' };
+    this.state = { textarr: [] };
   }
+
+  async componentDidMount() {
+    try {
+      const res = await axios.get('/reddit');
+      this.setState({ textarr: res.data });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // shouldComponentUpdate()
 
   render() {
     return (
       <div>
-        <h1>{this.state.text}</h1>
+        {this.state.textarr.map((post, idx) => (
+          <h5 key={idx}>{post}</h5>
+        ))}
       </div>
     );
   }
